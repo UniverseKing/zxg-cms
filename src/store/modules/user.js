@@ -7,11 +7,15 @@
 
 const state = {
     token: localStorage.getItem('zxg-cms-token'),
+    userinfo:JSON.parse(localStorage.getItem('zxg-cms-userinfo'))
 }
 
 const getters = {
     token(state) {
         return state.token
+    },
+    userinfo(state){
+        return state.userinfo
     }
 }
 
@@ -23,6 +27,14 @@ const mutations = {
     DEL_TOKEN(state) {
         state.token = null
         localStorage.removeItem('zxg-cms-token')
+    },
+    SET_USERINFO(state,payload){
+        state.userinfo = payload
+        localStorage.setItem('zxg-cms-userinfo',JSON.stringify(payload))
+    },
+    DEL_USERINFO(state){
+        state.userinfo = null
+        localStorage.removeItem('zxg-cms-userinfo')
     }
 }
 

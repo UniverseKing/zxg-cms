@@ -24,12 +24,40 @@ const routes = [
     redirect: '/dashbord',
     children: [
       {
-        path:'/dashbord',
-        component:()=>import('@/views/Dashbord')
+        path: 'dashbord',
+        component: () => import('@/views/Dashbord')
       },
       {
         path: 'users',
         component: () => import('@/views/Users')
+      },
+      {
+        path: 'rights',
+        component: () => import('@/views/Rights/rights')
+      },
+      {
+        path: 'roles',
+        component: () => import('@/views/Rights/roles')
+      },
+      {
+        path: 'goods',
+        component: () => import('@/views/Goods/goods')
+      },
+      {
+        path: 'params',
+        component: () => import('@/views/Goods/params')
+      },
+      {
+        path: 'categories',
+        component: () => import('@/views/Goods/categories')
+      },
+      {
+        path: 'orders',
+        component: () => import('@/views/Orders/orders')
+      },
+      {
+        path: 'Reports',
+        component: () => import('@/views/Reports/reports')
       }
     ]
   },
@@ -37,6 +65,19 @@ const routes = [
 
 const router = new VueRouter({
   routes
+})
+
+// 用户没有登录时拦截无法访问系统内部界面
+router.beforeEach((to, from, next) => {
+  if(to.path == '/login'){
+    next()
+  }else{
+    if(localStorage.getItem('zxg-cms-token')){
+      next()
+    }else{
+      next('/login')
+    }
+  }
 })
 
 export default router

@@ -34,12 +34,16 @@
 
 <script>
 import {
-    login
+    login,
+    roleinfo
 } from '@/api/user'
 import {
     mapMutations
 } from 'vuex'
 import SlideVerify from '@/components/SlideVerify'
+import {
+    Message
+} from 'element-ui'
 export default {
     data() {
         const validatePass = (rule, value, callback) => {
@@ -54,7 +58,7 @@ export default {
             }
         };
         return {
-            showSlide:false,
+            showSlide: false,
             ruleForm: {
                 username: '',
                 password: ''
@@ -80,15 +84,15 @@ export default {
         }
     },
     methods: {
-        onSuccess(){
+        onSuccess() {
             console.log('ok')
             this.showSlide = false
             this.fetchLogin()
         },
-        onFail(){
+        onFail() {
             console.log('fail')
         },
-        refresh(){
+        refresh() {
             console.log('refresh')
             this.$refs.slideDiv.reset()
         },
@@ -107,17 +111,42 @@ export default {
         },
         async fetchLogin() {
             const res = await login('login', this.ruleForm)
+            if (res.meta.status == 400) {
+                Message.error({message:res.meta.msg,duration:1000})
+                this.refresh()
+                return
+            }
             // 解构赋值
             const {
-                token
+                token,
+                rid,
+                username
             } = res.data
             // this.$store.commit('SET_TOKEN',token)
             this.SET_TOKEN(token)
+
+            // 获取角色信息
+            const info = await roleinfo('roles/' + rid, null)
+            console.log(info)
+            const {
+                roleName
+            } = info.data
+
+            // 将用户和角色相关信息全部保存到store中
+            this.SET_USERINFO({
+                username,
+                roleName
+            })
+
             this.$router.push('/')
         },
-        ...mapMutations([
-            'SET_TOKEN'
-        ])
+        // ...mapMutations('user',[
+        //     'SET_TOKEN'
+        // ])
+        ...mapMutations({
+            SET_TOKEN: 'user/SET_TOKEN',
+            SET_USERINFO: 'user/SET_USERINFO'
+        })
     },
     components: {
         SlideVerify

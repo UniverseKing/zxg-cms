@@ -2,7 +2,7 @@
 <div>
     <el-dropdown class="userDd">
         <div class="userDrop">
-            <span class="userDrop_text">zxx<i class="el-icon-caret-bottom"></i></span>
+            <span class="userDrop_text">{{userinfo.username}}<i class="el-icon-caret-bottom"></i></span>
             <img src="@/assets/avatar.jpg" alt="user" />
         </div>
         <el-dropdown-menu solt="dropdown">
@@ -25,14 +25,14 @@ import {
     mapGetters
 } from 'vuex'
 export default {
-    /*
     computed: {
-        ...mapGetters(['userName'])
+        ...mapGetters('user',['userinfo'])
     },
-    */
     methods: {
         loginOut() {
-            // this.$store.dispatch('user/loginOut')
+            this.$store.commit('user/DEL_TOKEN')
+            this.$store.commit('user/DEL_USERINFO')
+            this.$router.replace('/login')
         }
     }
 }

@@ -9,7 +9,7 @@ import screenfull from 'screenfull'
 export default {
   methods: {
     toggleFull() {
-      if (!screenfull.enabled) {
+      if (!screenfull.isEnabled) {
         this.$message({
           type: 'warning',
           message: 'you browser can not work'

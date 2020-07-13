@@ -15,3 +15,8 @@ export const login = (url, data) => {
 export const users = (url, data) => {
     return $axios.get(url, data)
 }
+
+// 获取用户角色
+export const roleinfo = (url,data) => {
+    return $axios.get(url,data)
+}

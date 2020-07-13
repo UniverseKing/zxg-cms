@@ -18,8 +18,10 @@ let loading = null
 $axios.interceptors.request.use(
     config => {
         loading = Loading.service({ text: '拼命加载中' })
+
+        console.log(store.getters['user/token'])
+        const token = store.getters['user/token']
         
-        const token = store.getters.token
         if (token) {
             config.headers.Authorization = token // 请求头部添加token
         }

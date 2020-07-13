@@ -6,8 +6,8 @@
                 <div class="user-info">
                     <img src="../../assets/avatar.jpg" class="user-avator" alt="">
                     <div class="user-info-cont">
-                        <div class="user-info-name">admin</div>
-                        <div>超级管理员</div>
+                        <div class="user-info-name">{{userinfo.username}}</div>
+                        <div>{{userinfo.roleName}}</div>
                     </div>
                 </div>
                 <div class="user-info-list">上次登录时间：<span>2019-11-01</span></div>
@@ -93,6 +93,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
     name: 'dashboard',
     data() {
@@ -173,9 +174,7 @@ export default {
         // Schart
     },
     computed: {
-        role() {
-            return this.name === 'admin' ? '超级管理员' : '普通用户';
-        }
+       ...mapGetters('user',['userinfo'])
     },
     created() {
         this.handleListener();
