@@ -1,8 +1,8 @@
 import axios from 'axios'
 import Qs from 'qs'
-// import store from '@/store'
+import store from '@/store'
 import router from '@/router'
-import Vue from 'vue'
+// import Vue from 'vue'
 import { Loading, Message } from 'element-ui' // 引用element-ui的加载和消息提示组件
 
 const $axios = axios.create({
@@ -19,7 +19,7 @@ $axios.interceptors.request.use(
     config => {
         loading = Loading.service({ text: '拼命加载中' })
         
-        const token = localStorage.getItem('zxg-cms-token')
+        const token = store.getters.token
         if (token) {
             config.headers.Authorization = token // 请求头部添加token
         }
